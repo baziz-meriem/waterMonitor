@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import 'custom_slider.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MaterialApp(
@@ -29,7 +31,7 @@ class _MyAppState extends State<MyApp> {
           if(snapshot.hasError) {
             return Text("Semething went wrong with firebase");
           }else if(snapshot.hasData){
-            return content();
+            return Center(child: CustomSlider());
           }else{
             return CircularProgressIndicator();
           }
