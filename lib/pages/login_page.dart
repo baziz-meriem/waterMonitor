@@ -18,10 +18,49 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
 
   void signUserIn() async{
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
+    // show loading circle
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+    // try sign in
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
-        password: passwordController.text,);
+        password: passwordController.text,
+      );
+      // pop the loading circle
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      // pop the loading circle
+      Navigator.pop(context);
+      // show error message
+      showErrorMessage(e.code);
+    }
   }
+
+  // error message to user
+  void showErrorMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.deepPurple,
+          title: Center(
+            child: Text(
+              message,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 25),
                   MyButton(
+                      text:'Sign In',
                       onTap: signUserIn),
                   const SizedBox(height: 50,),
                  Row(
