@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/components/My_button.dart';
 
@@ -12,11 +13,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
 
-  void signUserIn(){}
+  void signUserIn() async{
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +44,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height:25),
                   MyTextField(
-                    controller: usernameController,
-                    hintText: 'User Name',
+                    controller: emailController,
+                    hintText: 'Email',
                     obscureText: false,
                   ),
                   MyTextField(
