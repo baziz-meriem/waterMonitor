@@ -58,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.indigo[50],
           title: Center(
             child: Text(
               message,
@@ -73,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.indigo[50],
       body: Center(
         child: SingleChildScrollView(
           child: SafeArea(
@@ -85,7 +85,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     size:80,),
                   const SizedBox(height: 50,),
                   Text('Let\'s create an account for you!',
-                    style:TextStyle(color:Colors.grey[700],
+                    style:TextStyle(color:Colors.indigo[700],
                       fontSize:16,
                     ),
                   ),
@@ -114,14 +114,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Already have an account ?', style:TextStyle(color:Colors.grey[700])),
+                      Text('Already have an account ?', style:TextStyle(color:Colors.indigo[700])),
                       const SizedBox(width:4),
                       GestureDetector(
                         onTap: widget.onTap,
                         child: const Text(
                           'Login now',
                           style:TextStyle(
-                              color:Colors.blue, fontWeight:FontWeight .bold
+                              color:Colors.indigo, fontWeight:FontWeight.w900
                           ),
                         ),
                       )

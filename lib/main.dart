@@ -7,7 +7,7 @@ import 'package:flutterprojects/pages/loginor_register_page.dart';
 import 'package:flutterprojects/pages/register_page.dart';
 import 'firebase_options.dart';
 
-import 'custom_slider.dart';
+import 'waterTank_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

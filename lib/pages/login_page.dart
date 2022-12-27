@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.indigo[50],
           title: Center(
             child: Text(
               message,
@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.indigo[50],
       body: Center(
         child: SingleChildScrollView(
           child: SafeArea(
@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                     size:100,),
                  const SizedBox(height: 50,),
                   Text('Welcome back you\'ve been missed!',
-                  style:TextStyle(color:Colors.grey[700],
+                  style:TextStyle(color:Colors.indigo[700],
                     fontSize:16,
                   ),
                   ),
@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Text(
                           'Forgot password?',
-                          style:TextStyle(color:Colors.grey[600]),
+                          style:TextStyle(color:Colors.indigo[600]),
                         ),
                       ],
                     ),
@@ -112,14 +112,14 @@ class _LoginPageState extends State<LoginPage> {
                  Row(
                    mainAxisAlignment: MainAxisAlignment.center,
                    children: [
-                     Text('Not a member?', style:TextStyle(color:Colors.grey[700])),
+                     Text('Not a member?', style:TextStyle(color:Colors.indigo[700])),
                      const SizedBox(width:4),
                      GestureDetector(
                        onTap:widget.onTap,
                        child: const Text(
                          'Register now',
                          style:TextStyle(
-                           color:Colors.blue, fontWeight:FontWeight .bold
+                           color:Colors.indigo, fontWeight:FontWeight .w900
                          ),
                        ),
                      )
