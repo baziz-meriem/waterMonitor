@@ -3,13 +3,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class waterTank extends StatefulWidget {
-  const waterTank({
+    waterTank( {
     super.key,
     this.height = 320,
-    this.width = 200,
-    this.distance=0,
+    this.width = 200, required this.distance,
 });
-  final double distance;
+   var  distance;
   final double height;
   final double width;
   @override
@@ -17,7 +16,6 @@ class waterTank extends StatefulWidget {
 }
 
 class _waterTankState extends State<waterTank> {
-
   //global key for detecting our slider widget
   final GlobalKey _key = LabeledGlobalKey("main_slider");
 
@@ -40,6 +38,7 @@ class _waterTankState extends State<waterTank> {
           if(snapshot.hasError) {
             return Text("Semething went wrong with firebase");
           }else if(snapshot.hasData){
+
             return  Column(
               children: [
                 Padding(
@@ -139,7 +138,7 @@ class _waterTankState extends State<waterTank> {
                                 children:[
                                   AnimatedOpacity(
                                     duration: const Duration(milliseconds: 100),
-                                    opacity:1,
+                                    opacity:0.5,
                                     child :Text(
                                       "${(widget.distance *100).floor()}%",
                                       style:Theme.of(context).textTheme.headlineSmall,
@@ -172,25 +171,23 @@ class _waterTankState extends State<waterTank> {
                                               /// the widget that draw of how much we tap/drag its parent,
                                               /// and use absorb pointer so this widget and its child
                                               /// will pass the gesture so the parent widget can detect
-                                              child:AbsorbPointer(
-                                                  child:ClipPath(
-                                                    /// we cut path base on how much we tap its parent
-                                                      clipper: PersentagePainter(persentage: widget.distance),
-                                                      child:Container(
-                                                        height: widget.height,
-                                                        width: widget.width,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:BorderRadius.circular(8),
-                                                            gradient:const LinearGradient(
-                                                              colors:[
-                                                                Colors.blueAccent,
-                                                                Colors.lightBlueAccent,
-                                                              ],
-                                                              begin:AlignmentDirectional.bottomEnd,
-                                                              end:AlignmentDirectional.topCenter,
-                                                            )
-                                                        ),
-                                                      )
+                                              child:ClipPath(
+                                                /// we cut path base on how much we tap its parent
+                                                  clipper: PersentagePainter(persentage: widget.distance),
+                                                  child:Container(
+                                                    height: widget.height,
+                                                    width: widget.width,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:BorderRadius.circular(8),
+                                                        gradient:const LinearGradient(
+                                                          colors:[
+                                                            Colors.blueAccent,
+                                                            Colors.lightBlueAccent,
+                                                          ],
+                                                          begin:AlignmentDirectional.bottomEnd,
+                                                          end:AlignmentDirectional.topCenter,
+                                                        )
+                                                    ),
                                                   )
                                               )
                                           )
@@ -208,7 +205,15 @@ class _waterTankState extends State<waterTank> {
             return CircularProgressIndicator();
           }
         },
-      )
+      ),
+    floatingActionButton: FloatingActionButton.extended(
+      onPressed: () {
+        // Add your onPressed code here!
+      },
+      label: const Text('ADD'),
+      icon: const Icon(Icons.add),
+      backgroundColor: Colors.grey[900],
+    ),
   );
 
 }
