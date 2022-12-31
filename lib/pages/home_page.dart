@@ -48,9 +48,10 @@ class HomePage extends StatelessWidget {
                 trailing: Icon(Icons.arrow_forward_ios),
                 contentPadding: EdgeInsets.all(12),
 
-               onTap: (){ Navigator.push(
+               onTap: (){
+                 Navigator.push(
                  context,
-                 MaterialPageRoute(builder: (context)=> waterTank(distance:distance))
+                 MaterialPageRoute(builder: (context)=> waterTank(distance: distance))
                ); },
                iconColor:Colors.indigo[900],
                 textColor: Colors.black,
