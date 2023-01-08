@@ -20,15 +20,17 @@ class _waterTankState extends State<waterTank> {
   final GlobalKey _key = LabeledGlobalKey("main_slider");
 
   final Future<FirebaseApp> _fApp = Firebase.initializeApp();
+  double realTimeValue = 0.0;
   Widget build (BuildContext context) {
-  /*DatabaseReference _testRef = FirebaseDatabase.instance.ref().child('test/distance');
+  DatabaseReference _testRef = FirebaseDatabase.instance.ref().child('test/sensors/1/distance');
+  ///String newString = 'This is my name: ${person.name}';
   _testRef.onValue.listen(
           (event){
         setState((){
-          distance= event.snapshot.value as double;
+          realTimeValue= event.snapshot.value as double;
         });
       }
-  );*/
+  );
   return Scaffold(
       appBar: AppBar(title: Text("Water Tank Monitor"),backgroundColor: Colors.indigo[900],),
       backgroundColor: Colors.indigo[50],
@@ -140,7 +142,7 @@ class _waterTankState extends State<waterTank> {
                                     duration: const Duration(milliseconds: 100),
                                     opacity:0.5,
                                     child :Text(
-                                      "${(widget.distance *100).floor()}%",
+                                      "${(realTimeValue *100).floor()}%",
                                       style:Theme.of(context).textTheme.headlineSmall,
                                     ),
                                   ),
@@ -173,7 +175,7 @@ class _waterTankState extends State<waterTank> {
                                               /// will pass the gesture so the parent widget can detect
                                               child:ClipPath(
                                                 /// we cut path base on how much we tap its parent
-                                                  clipper: PersentagePainter(persentage: widget.distance),
+                                                  clipper: PersentagePainter(persentage: realTimeValue),
                                                   child:Container(
                                                     height: widget.height,
                                                     width: widget.width,
@@ -206,14 +208,7 @@ class _waterTankState extends State<waterTank> {
           }
         },
       ),
-    floatingActionButton: FloatingActionButton.extended(
-      onPressed: () {
-        // Add your onPressed code here!
-      },
-      label: const Text('ADD'),
-      icon: const Icon(Icons.add),
-      backgroundColor: Colors.grey[900],
-    ),
+
   );
 
 }

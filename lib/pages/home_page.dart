@@ -9,6 +9,7 @@ class HomePage extends StatelessWidget {
    HomePage({super.key});
 
   final firebaseRef = FirebaseDatabase.instance.ref().child("test/sensors");
+
   final user = FirebaseAuth.instance.currentUser!;
 
   // sign user out method
