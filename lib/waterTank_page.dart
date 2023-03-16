@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 class waterTank extends StatefulWidget {
     waterTank( {
     super.key,
-    this.height = 320,
-    this.width = 200, required this.distance,
+    this.height = 400,
+    this.width = 240, required this.percentage,
 });
-   var  distance;
+   var  percentage;
   final double height;
   final double width;
   @override
@@ -20,10 +20,10 @@ class _waterTankState extends State<waterTank> {
   final GlobalKey _key = LabeledGlobalKey("main_slider");
 
   final Future<FirebaseApp> _fApp = Firebase.initializeApp();
-  double realTimeValue = 0.0;
+  late double realTimeValue;
+  late double liters;
   Widget build (BuildContext context) {
-  DatabaseReference _testRef = FirebaseDatabase.instance.ref().child('test/sensors/1/distance');
-  ///String newString = 'This is my name: ${person.name}';
+  DatabaseReference _testRef = FirebaseDatabase.instance.ref().child('test/sensors/1/percentage');
   _testRef.onValue.listen(
           (event){
         setState((){
@@ -31,8 +31,18 @@ class _waterTankState extends State<waterTank> {
         });
       }
   );
+  DatabaseReference _litRef = FirebaseDatabase.instance.ref().child('test/sensors/1/liters');
+
+  _litRef.onValue.listen(
+          (event){
+        setState((){
+          liters= event.snapshot.value as double;
+        });
+      }
+  );
+
   return Scaffold(
-      appBar: AppBar(title: Text("Water Tank Monitor"),backgroundColor: Colors.indigo[900],),
+      appBar: AppBar(title: Text("Water Level Monitor"),backgroundColor: Colors.indigo[900],),
       backgroundColor: Colors.indigo[50],
       body:FutureBuilder(
         future: _fApp,
@@ -46,75 +56,50 @@ class _waterTankState extends State<waterTank> {
                 Padding(
                   padding: const EdgeInsets.only(left:0,top:10,right:0,bottom:15),
                   child: Container(
-                    height: 90,
-                   child: Expanded(
-                     child: ListView(
-                       scrollDirection: Axis.horizontal,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: InkWell(
+                    height: 62,
+                   child: ListView(
+                     scrollDirection: Axis.vertical,
+                      children: [
+                        Padding(
+                         padding: const EdgeInsets.only(left:0,top:0,right:0,bottom:15),
+                          child: InkWell(
                               onTap: (){},
-                              child:Container(
-                                width: 150,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color:Colors.indigo[50],border: Border.all(
-                                  width: 2,color: (Colors.indigo[800])!
-                                ),),
-                                child: Center(child: RichText(
-                                  text: TextSpan(
-                                    style: DefaultTextStyle.of(context).style,
+                              child:Center(
+                                child: Container(
+                                  width: 250,
 
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: "Litters to fill\n",
-                                        style: TextStyle(color: Colors.black.withOpacity(0.6),fontSize: 18,fontWeight:FontWeight.bold),
-                                      ),
-                                      TextSpan(
-                                        text: "20 L",
-                                        style: TextStyle(color: Colors.black.withOpacity(0.8),fontSize: 18,fontWeight:FontWeight.bold,),
-
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                              )
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: InkWell(
-                                onTap: (){},
-                                child:Container(
-                                  width: 150,
                                   decoration: BoxDecoration(
 
                                       borderRadius: BorderRadius.circular(10),
                                       color:Colors.indigo[50],
 
                                     border: Border.all(
-                                      width: 2,color: (Colors.indigo[800])!
+                                      width: 4,color: (Colors.indigo[800])!
                                     ),),
-                                  child: Center(child: RichText(
-                                    text: TextSpan(
-                                      style: DefaultTextStyle.of(context).style,
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: "Remaining\n",
-                                          style: TextStyle(color: Colors.black.withOpacity(0.6),fontSize: 18,fontWeight:FontWeight.bold),
-                                        ),
-                                        TextSpan(
-                                          text: "5 L",
-                                          style: TextStyle(color: Colors.black.withOpacity(0.8),fontSize: 18,fontWeight:FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                                )
-                            ),
-                          )
-                        ],
-                      ),
-                   ), ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(6.0),
+                                    child: Center(child: RichText(
+                                      text: TextSpan(
+                                        style: DefaultTextStyle.of(context).style,
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: "Remaining liters\n",
+                                            style: TextStyle(color: Colors.black.withOpacity(0.6),fontSize: 18,fontWeight:FontWeight.bold),
+                                          ),
+                                          TextSpan(
+                                            text: "     "+liters.toStringAsFixed(3),
+                                            style: TextStyle(color: Colors.black.withOpacity(0.8),fontSize: 18,fontWeight:FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                                  ),
+                                ),
+                              )
+                          ),
+                        )
+                      ],
+                    ), ),
                 ),
                       Padding(
                       padding: const EdgeInsets.only(left :0,top:0,right:30,bottom:10),
@@ -125,12 +110,12 @@ class _waterTankState extends State<waterTank> {
                             //precision indicator
                             Container(
                               height: widget.height,
-                              margin:const EdgeInsets.fromLTRB(0,0,8,4),
+                              margin:const EdgeInsets.fromLTRB(0,0,4,4),
                               child:Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: List.generate(11,(index) {
+                                children: List.generate(21,(index) {
                                   return Text(
-                                    "${100-(index*10)}",
+                                    "${100-(index*5)}",
                                   );
                                 }),
                               ),
@@ -139,14 +124,14 @@ class _waterTankState extends State<waterTank> {
                                 mainAxisSize: MainAxisSize.min,
                                 children:[
                                   AnimatedOpacity(
-                                    duration: const Duration(milliseconds: 100),
+                                    duration: const Duration(milliseconds: 1000),
                                     opacity:0.5,
                                     child :Text(
-                                      "${(realTimeValue *100).floor()}%",
+                                      "${(realTimeValue)}%",
                                       style:Theme.of(context).textTheme.headlineSmall,
                                     ),
                                   ),
-                                  const SizedBox(height:8),
+                                  const SizedBox(height:5),
                                   ///widget for draw our border
                                   ///so we can precisely calculate the main slider and not the border
                                   Container(
@@ -175,7 +160,8 @@ class _waterTankState extends State<waterTank> {
                                               /// will pass the gesture so the parent widget can detect
                                               child:ClipPath(
                                                 /// we cut path base on how much we tap its parent
-                                                  clipper: PersentagePainter(persentage: realTimeValue),
+
+                                                  clipper: PersentagePainter(percentage: realTimeValue/100),
                                                   child:Container(
                                                     height: widget.height,
                                                     width: widget.width,
@@ -217,17 +203,17 @@ class _waterTankState extends State<waterTank> {
 ///custom clippath for cutting path base on how much we tapdrag its parent
 
 class PersentagePainter extends CustomClipper<Path> {
-  final double persentage;
+  final double percentage;
   PersentagePainter({
-    this.persentage = 0,
+    this.percentage = 0,
 });
   @override
   Path getClip (Size size) {
     final path =Path();
-    path.moveTo(0,size.height * persentage);
+    path.moveTo(0,size.height * percentage);
     path.lineTo(0,0);
     path.lineTo(size.width,0);
-    path.lineTo(size.width,size.height * persentage);
+    path.lineTo(size.width,size.height * percentage);
     path.close();
     return path;
   }
